@@ -420,6 +420,8 @@ KiSetTrapContextInternal(
     _In_ PCONTEXT Context,
     _In_ KPROCESSOR_MODE RequestorMode)
 {
+    ULONG64 TargetFrame;
+
     /* Save the volatile register context in the trap frame */
     KeContextToTrapFrame(Context,
                          NULL,
@@ -427,6 +429,9 @@ KiSetTrapContextInternal(
                          Context->ContextFlags,
                          RequestorMode);
 
-    /* Set the nonvolatiles on the stack, target frame is the trap frame */
-    RtlSetUnwindContext(Context, (ULONG64)TrapFrame);
+    /* The target frame is 0x80 bytes before the trap frame */
+    TargetFrame = (ULONG64)TrapFrame - 0x80;
+
+    /* Set the nonvolatiles on the stack */
+    RtlSetUnwindContext(Context, TargetFrame);
 }
