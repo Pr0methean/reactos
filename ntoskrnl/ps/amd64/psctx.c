@@ -37,7 +37,7 @@ PspGetOrSetContextKernelRoutine(
     PKTRAP_FRAME TrapFrame = NULL;
 
     PAGED_CODE();
-    __debugbreak();
+
     /* Get the Context Structure */
     GetSetContext = CONTAINING_RECORD(Apc, GET_SET_CTX_CONTEXT, Apc);
     Thread = Apc->SystemArgument2;
@@ -64,7 +64,6 @@ PspGetOrSetContextKernelRoutine(
     }
     else
     {
-        __debugbreak();
         /* Convert the trap frame to a context */
         KeTrapFrameToContext(TrapFrame,
                              NULL,
