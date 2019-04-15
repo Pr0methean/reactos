@@ -129,7 +129,7 @@ typedef struct _ID_LIST_DRIVE
 
 int main(int argc, const char *argv[])
 {
-    unsigned i;
+    int i;
     const char *pszOutputPath = "shortcut.lnk";
     const char *pszTarget = NULL;
     const char *pszDescription = "Description";
@@ -224,7 +224,7 @@ int main(int argc, const char *argv[])
         ID_LIST_FILE IdListFile;
         ID_LIST_GUID IdListGuid;
         ID_LIST_DRIVE IdListDrive;
-        unsigned cbListSize = sizeof(IdListGuid) + sizeof(uint16_t), cchName;
+        size_t cbListSize = sizeof(IdListGuid) + sizeof(uint16_t), cchName;
         const char *pszName = pszTarget;
 
         // ID list
