@@ -176,7 +176,7 @@ MiGetPteForProcess(
         Pte = MiAddressToPde(Address);
         if (Pte->u.Long == 0)
         {
-            MI_WRITE_INVALID_PTE(Pte, DemandZeroPde);
+            MI_WRITE_INVALID_PTE(Pte, DemandZeroPte);
         }
     }
     else
