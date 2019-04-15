@@ -1066,12 +1066,16 @@ RtlCaptureNonVolatileContextPointers(
     ULONG64 ImageBase;
     PVOID HandlerData;
     ULONG64 EstablisherFrame;
+    KPROCESSOR_MODE Mode;
 
     /* Zero out the nonvolatile context pointers */
     RtlZeroMemory(NonvolatileContextPointers, sizeof(*NonvolatileContextPointers));
 
     /* Capture the current context */
     RtlCaptureContext(&Context);
+
+    /* Use the highest bit in RIP as mode flag */
+    Mode = Context.Rip >> 63;
 
     do
     {
@@ -1088,7 +1092,10 @@ RtlCaptureNonVolatileContextPointers(
                          &HandlerData,
                          &EstablisherFrame,
                          NonvolatileContextPointers);
-    } while (EstablisherFrame < TargetFrame);
+
+        /* Continue until we reached the target frame or user mode */
+    } while ((EstablisherFrame < TargetFrame) && 
+             ((Context.Rip >> 63) == Mode));
 }
 
 VOID
